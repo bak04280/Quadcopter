@@ -2,6 +2,7 @@
 #include <Wire.h>
 #define DEVICE (0x53)               //ADXL345 device address
 #define TO_READ (6)                 //num of bytes we are going to read each time (two bytes for each axis)
+#include "TimerThree.h"
 
 byte buff[TO_READ];                 //6 bytes buffer for saving data read from the device
 char str[512];                      //string buffer to transform data before sending it to the serial port
@@ -30,20 +31,48 @@ void setup(){
   _fl.writeMicroseconds(1000);
   _rr.writeMicroseconds(1000);
   _rl.writeMicroseconds(1000);
-  
+  Timer3.initialize(100000);
+  Timer3.attachInterrupt(test);
   delay(4000);
 }
 
 void loop(){
   getOrientation();
-  
-  if(((millis()/1000)%9)==0){
-    sprintf(str, "%d %d %d", x, y, z);  
-    Serial.println(str);
-    delay(15);
-  }
-  
+  // set the cursor to column 0, line 1
+  // (note: line 1 is the second row, since counting begins with 0):
+  //if(((millis()/1000)%9)==0){
+  //  sprintf(str, "%d %d %d", x, y, z);  
+  //  Serial.println(str);
+  //  delay(15);
+  //}
+  //_speed = analogRead(_throttle);
+  //_speed = map(_speed, 0, 1023, 1000, 2000);
+  //if(((millis()/1000)%10)==0){
+  //  _speed = 1300;
+  //  count = 1;
+  //  if (count > 0){
+     // _speed = _speed + 100;
+    //}
+    //else{
+     // _speed = _speed - 100;
+   //   _speed = 1000;
+    //}
+   //count++;
+  //}
   signalRotors(_speed+x-y,_speed+x+y,_speed-y-x,_speed-x+y);
+}
+
+void test(){
+  count++;
+  if(count > 20){
+    _speed = _speed+50;
+  }
+  if(count >= 40){
+    _speed = _speed - 100;
+  }
+  if(_speed <=1000 && count > 40){
+    count = 0;
+  }
 }
 
 void getOrientation(){
@@ -55,7 +84,6 @@ void getOrientation(){
   y = (((int)buff[3])<< 8) | buff[2];
   z = (((int)buff[5]) << 8) | buff[4];
    //Value conversion raw axis data -> uS servo signal. Probably doesn't belong in this function.
-   //TODO: remap values to account for negative axis data
   x = map(x, 0, 390, 0, 1000); 
   y = map(y, 0, 390, 0, 1000);
   z = map(z, 0, 390, 0, 1000);
