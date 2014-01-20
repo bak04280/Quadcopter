@@ -13,7 +13,6 @@ Servo _rl;
 
 int count = 0;
 int x, y, z;
-int _throttle = A15;
 int _speed = 1000;
 void setup(){
   Wire.begin();        // join i2c bus (address optional for master)
