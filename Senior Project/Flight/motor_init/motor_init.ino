@@ -42,24 +42,20 @@ void loop(){
     Serial.println(str);
     delay(15);
   }
-  
-  signalRotors(_speed+x-y,_speed+x+y,_speed-y-x,_speed-x+y);
-}
-
-void getOrientation(){
-  int regAddress = 0x32;    //first axis-acceleration-data register on the ADXL345
-  readFrom(DEVICE, regAddress, TO_READ, buff); //read the acceleration data from the ADXL345
-   //each axis reading comes in 10 bit resolution, ie 2 bytes.  Least Significat Byte first!!
-   //thus we are converting both bytes in to one int
-  x = (((int)buff[1]) << 8) | buff[0];   
-  y = (((int)buff[3])<< 8) | buff[2];
-  z = (((int)buff[5]) << 8) | buff[4];
-   //Value conversion raw axis data -> uS servo signal. Probably doesn't belong in this function.
-   //TODO: remap values to account for negative axis data
   x = map(x, 0, 390, 0, 1000); 
   y = map(y, 0, 390, 0, 1000);
   z = map(z, 0, 390, 0, 1000);
+  signalRotors(_speed+x-y,_speed+x+y,_speed-y-x,_speed-x+y);
 }
+
+void signalRotors(int fr, int fl, int rr, int rl){
+  _fr.writeMicroseconds(fr);
+  _fl.writeMicroseconds(fl);
+  _rr.writeMicroseconds(rr);
+  _rl.writeMicroseconds(rl);
+}
+
+
 
 //Writes val to address register on device
 void writeTo(int device, byte address, byte val) {
@@ -87,11 +83,16 @@ void readFrom(int device, byte address, int num, byte buff[]) {
   Wire.endTransmission(); //end transmission
 }
 
-void signalRotors(int fr, int fl, int rr, int rl){
-  _fr.writeMicroseconds(fr);
-  _fl.writeMicroseconds(fl);
-  _rr.writeMicroseconds(rr);
-  _rl.writeMicroseconds(rl);
+//Gets x,y,z, axis data range (-351 - 0 - 351) (-90* - level - 90*)
+void getOrientation(){
+  int regAddress = 0x32;    //first axis-acceleration-data register on the ADXL345
+  readFrom(DEVICE, regAddress, TO_READ, buff); //read the acceleration data from the ADXL345
+   //each axis reading comes in 10 bit resolution, ie 2 bytes.  Least Significat Byte first!!
+   //thus we are converting both bytes in to one int
+  x = (((int)buff[1]) << 8) | buff[0];   
+  y = (((int)buff[3])<< 8) | buff[2];
+  z = (((int)buff[5]) << 8) | buff[4];
 }
+
 
 
