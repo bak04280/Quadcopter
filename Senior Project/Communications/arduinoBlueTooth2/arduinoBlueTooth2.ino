@@ -16,6 +16,7 @@ void setup()
   delay(100);
   bluetooth.println("U,9600,N");
   bluetooth.begin(9600);
+  
 }
 
 void loop()
