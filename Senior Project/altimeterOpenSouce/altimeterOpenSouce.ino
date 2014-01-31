@@ -70,7 +70,7 @@ long startTime;
 void setup()
 {
   Wire.begin(); // join i2c bus
-  Serial.begin(57600); // start serial for output
+  Serial.begin(9600); // start serial for output
 
   if(IIC_Read(WHO_AM_I) == 196)
     Serial.println("MPL3115A2 online!");
@@ -366,3 +366,4 @@ void IIC_Write(byte regAddr, byte value)
   Wire.write(value);
   Wire.endTransmission(true);
 }
+
