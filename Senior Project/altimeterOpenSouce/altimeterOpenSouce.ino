@@ -14,6 +14,16 @@ Usage:
 During testing, GPS with 9 sattelites reported 5393ft, sensor reported 5360ft (delta of 33ft). Very close!
 */
 
+/*
+Changes made by Brendon A. Kay 01/31/14
+Note: I owe A.Weiss a beer!
+
+*** !!TO DO!! ***
+  - program a Median function to take average of samples.
+  - program a calibration init
+*** !!TO DO!! ***
+*/
+
 #include <Wire.h> // for IIC communication
 
 #define STATUS 0x00
