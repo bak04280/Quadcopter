@@ -13,25 +13,24 @@ Servo _rl;
 
 int count = 0;
 int x, y, z;
-int _throttle = A15;
 int _speed = 1000;
 void setup(){
   Wire.begin();        // join i2c bus (address optional for master)
   Serial.begin(9600);
   pinMode(_throttle, INPUT);
-  writeTo(DEVICE, 0x2D, 0);      
-  writeTo(DEVICE, 0x2D, 16);
-  writeTo(DEVICE, 0x2D, 8);
-  _fr.attach(43);
+  writeTo(DEVICE, 0x2D, 0);      //initialize gyroscope
+  writeTo(DEVICE, 0x2D, 16);       
+  writeTo(DEVICE, 0x2D, 8);      
+  _fr.attach(43);                //attach rotors to respective variables
   _rl.attach(40);
   _rr.attach(42);
   _fl.attach(41);
-  _fr.writeMicroseconds(1000);
+  _fr.writeMicroseconds(1000);   //initialize rotors by sending throttle down signal
   _fl.writeMicroseconds(1000);
   _rr.writeMicroseconds(1000);
   _rl.writeMicroseconds(1000);
   
-  delay(4000);
+  delay(4000);                   //Allow time for rotors to initialize (min may be ~2000ms).
 }
 
 void loop(){

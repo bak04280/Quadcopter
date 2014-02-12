@@ -1,0 +1,19 @@
+CAT-6 DIAGNOSTICS
+
+Color Coding: T568A
+
+**NOTE** - possibly create own wire scheme? using whatever image protocol is needed for data and whatever gauge is needed to transmit power.
+
+	Data Transmission for Raspberry Pi Camera Module
+	Power for device
+
+Camera info including how to stream over a network: http://www.raspberrypi.org/camera 
+
+Physical computing with Raspberry pi: 
+http://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/robot/buttons_and_switches/ 
+
+Since you want WiFi connectivity: 
+http://www.amazon.com/Edimax-EW-7811Un-Wireless-Adapter-Wizard/dp/B003MTTJOY/ref=sr_1_1?ie=UTF8&qid=1389911670&sr=8-1&keywords=raspberry+pi+wifi 
+
+Using an XMLHttpRequest object to submit requests to a server with javascript (go through the chapters in the section): 
+http://www.w3schools.com/xml/xml_http.asp
